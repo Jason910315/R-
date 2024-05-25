@@ -212,4 +212,23 @@ var.test(Petal.Width~Species,iris_df_2sample,alternative = "two.sided" )
 #進行兩獨立樣本t檢定
 t.test(Petal.Width~Species, data=iris_df_2sample, alternative = "two.sided", var.equal = T)
 
+##5. 卡方檢定 ----
+install.packages("MASS")
+library("MASS")
+#使用Cars93套件
+data(Cars93)
+library(dplyr)
+
+#取出Compact、Midsize兩個類別並創造新變量Group
+Cars93_sub<-Cars93 %>% filter(Type=="Compact" | Type=="Midsize") %>% mutate(Group = ifelse(Type== "Compact","Compact" ,"Midsize"))
+
+#看air bag此變量是否跟type=compact, midsize是否有所不同
+#先做成table列聯表格式
+car93_t<-table(Cars93_sub$AirBags, Cars93_sub$Group)
+class(car93_t)
+
+###行列百分比 ----
+#prop.table()列出兩變量的行列百分比關係，值為機率
+prop.table(table(Cars93_sub$AirBags, Cars93_sub$Group))
+
 
